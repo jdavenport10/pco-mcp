@@ -1,73 +1,85 @@
-# Planning Center Online API and MCP Server Integration  
+# Planning Center Online MCP Server
 
-This project integrates the Planning Center Online (PCO) API with an MCP server to enable seamless interaction with a Large Language Model (LLM). The goal is to allow users to ask questions and retrieve data from Planning Center in a conversational manner.  
+An MCP server that integrates with the Planning Center Online (PCO) API, enabling LLMs to query and manage PCO data through natural language. Runs as a shared HTTP server with per-user OAuth authentication.
 
-## Features  
-- **PCO API Integration**: Connects to Planning Center Online to access and manage data.  
-- **FASTMCP Server**: Acts as a middleware to handle requests and responses between the LLM and PCO API.  
-- **LLM Query Support**: Enables natural language queries to fetch and manipulate data from Planning Center.  
+## Features
 
-## Use Cases  
-- Retrieve information about services in Planning Center.  
-- Automate workflows by querying and updating data using natural language.  
-- Provide insights and analytics through conversational queries.  
+- **OAuth Authentication**: Users sign in with their own PCO account — no shared service account
+- **Full CRUD Operations**: Create, read, update, and delete service types, plans, plan items, plan times, and team members
+- **Schedule Management**: View, accept, and decline schedule assignments
+- **Song & Tag Management**: Search, create, and tag songs; manage arrangements and keys
+- **Docker Deployment**: Single-command deployment for NAS or local network hosting
 
-## Getting Started  
+## Available Tools
 
-### Prerequisites  
-- Access to the [Planning Center API](https://developer.planningcenteronline.com/).  
-- Python environment 
-- MCP Client (i.e. Claude Desktop)
-- API keys for authentication.  
+| Category | Operations |
+|---|---|
+| **Service Types** | get, create, update, delete |
+| **Plans** | get, create, update, delete |
+| **Plan Times** | get, create, update, delete |
+| **Plan Items** | get, create, update, delete, reorder |
+| **Team Members** | get, assign, update, remove |
+| **Schedules** | get, accept, decline |
+| **Songs** | get, find, create |
+| **Arrangements** | get all, get specific, get keys |
+| **Tags** | assign to song, find songs by tags |
 
-### Installation  
-1. Clone this repository:  
-    ```bash  
-    git clone https://github.com/your-repo/pco-mcp-integration.git  
-    ```  
-2. Install dependencies:  
-    ```bash  
-    uv pip install -r requirements.txt 
-    ```  
-3. Configure environment variables:  
-    - `PCO_SECRET_KEY`: Your Planning Center API key.  
-    - `PCO_APPLICATION_ID`: URL of the MCP server.  
+## Getting Started
 
-4. Test the server:  
-    ```bash  
-    fastmcp dev services.py
-    ```  
+### Prerequisites
 
-## Usage  
-1. Send a natural language query to the MCP server.  
-2. The server processes the query and interacts with the PCO API.  
-3. Receive a structured response or perform the requested action.  
+- A [Planning Center Online](https://www.planningcenter.com/) account with API access
+- A registered PCO OAuth application at https://api.planningcenteronline.com/oauth/applications
+  - Set the callback URL to `http://your-server:8000/auth/callback`
+  - Request scopes: `services`, `people`
+- Docker (for deployment) or Python 3.12+
 
-Add MCP server config
-``` json
-{
-  "mcpServers": {
-    "pco-services": {
-      "command": "/path/to/fastmcp",
-      "args": ["run", "/path/to/services.py"],
-      "env": {
-        "PCO_APPLICATION_ID": "PCO_CLIENT_ID",
-        "PCO_SECRET_KEY": "PCO_CLIENT_SECRET_KEY"
-      }
-    }
-}
+### Configuration
+
+Copy `.env.example` to `.env` and fill in your values:
+
+```
+PCO_CLIENT_ID=your_pco_oauth_client_id
+PCO_CLIENT_SECRET=your_pco_oauth_client_secret
+BASE_URL=http://your-server-ip:8000
+JWT_SIGNING_KEY=generate-a-random-secret-here
 ```
 
-## Future Work
-It is intended to continue work on other areas of planning center.
+### Running with Docker
 
-## Contributing  
-Contributions are welcome! Please submit a pull request or open an issue for any suggestions or improvements.  
+```bash
+docker compose up --build
+```
 
-## License  
-This project is licensed under the [MIT License](LICENSE).  
+The server starts on port 8000.
 
-## Resources  
-- [Planning Center API Documentation](https://developer.planningcenteronline.com/)  
-- [FastMCP](https://github.com/jlowin/fastmcp)  
+### Running without Docker
+
+```bash
+pip install -r requirements.txt
+python services.py
+```
+
+### Connecting an MCP Client
+
+Point your MCP client (Claude Desktop, Cursor, etc.) at the server's HTTP endpoint:
+
+```
+http://your-server-ip:8000/mcp/
+```
+
+On first connection, the OAuth flow will redirect you to PCO to sign in and authorize access.
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue for any suggestions or improvements.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Resources
+
+- [Planning Center API Documentation](https://developer.planningcenteronline.com/)
+- [FastMCP](https://github.com/jlowin/fastmcp)
 - [pypco](https://github.com/billdeitrick/pypco)
