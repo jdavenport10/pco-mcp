@@ -31,4 +31,7 @@ ENV/
 .idea/
 .vscode/
 *.swp
-*.swo 
+*.swo
+
+# Docker
+docker-compose.override.yml
