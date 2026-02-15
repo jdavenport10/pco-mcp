@@ -1,3 +1,4 @@
 fastmcp
 pypco
-python-dotenv 
+python-dotenv
+httpx
