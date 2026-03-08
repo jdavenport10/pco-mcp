@@ -35,3 +35,7 @@ ENV/
 
 # Docker
 docker-compose.override.yml
+
+pco_mcp/*
+.claude/*
+*.json
