@@ -1,6 +1,6 @@
 import asyncio
 
-from fastmcp.server.dependencies import Depends
+from uncalled_for import Depends
 from pypco import PCO
 
 from server import mcp, get_pco, _build_patch_body
