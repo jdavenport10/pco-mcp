@@ -3,8 +3,8 @@ import os
 import httpx
 from dotenv import load_dotenv
 from fastmcp import FastMCP
+from fastmcp.dependencies import CurrentAccessToken
 from fastmcp.server.auth import OAuthProxy, AccessToken, TokenVerifier
-from fastmcp.server.dependencies import get_access_token
 from pypco import PCO
 
 # Load environment variables from .env file
@@ -65,11 +65,8 @@ mcp = FastMCP("PCO MCP Server", auth=auth)
 # Per-User PCO Client
 # =============================================================================
 
-async def get_pco() -> PCO:
+async def get_pco(token: AccessToken = CurrentAccessToken()) -> PCO:
     """Create a per-user PCO client from the authenticated user's upstream token."""
-    token = get_access_token()
-    if not token:
-        raise ValueError("No access token available")
     upstream_token = token.claims.get("pco_access_token")
     if not upstream_token:
         raise ValueError("No PCO access token available")
