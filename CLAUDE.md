@@ -44,6 +44,22 @@ Server listens on `0.0.0.0:8000`. Requires `.env` with `PCO_CLIENT_ID`, `PCO_CLI
 4. Add the new file to the `COPY` line in `Dockerfile`.
 5. Add the PCO product scope to the `extra_authorize_params` in `server.py`.
 
+## Debugging Loop
+
+When troubleshooting issues, follow this cycle until the service is healthy:
+
+1. **Boot** — `docker compose up --build`
+2. **Observe** — Watch logs for errors: `docker compose logs -f`
+3. **Troubleshoot** — Fix the root cause in source files
+4. **Reboot** — `docker compose down && docker compose up --build`
+5. **Repeat** until the service starts cleanly and responds correctly
+
+Key things to check in logs:
+- Import errors or syntax errors on startup
+- Missing environment variables (`.env` must have all 4 required keys)
+- PCO API authentication failures (check OAuth scopes and token flow)
+- Tool registration errors from FastMCP
+
 ## Dependencies
 
 - `fastmcp` — MCP server framework with OAuth support
