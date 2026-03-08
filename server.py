@@ -53,11 +53,11 @@ auth = OAuthProxy(
     upstream_client_secret=os.environ["PCO_CLIENT_SECRET"],
     token_verifier=PCOTokenVerifier(),
     base_url=os.environ.get("BASE_URL", "http://localhost:8000"),
-    extra_authorize_params={"scope": "services people registrations"},
+    extra_authorize_params={"scope": "services people registrations giving calendar"},
     jwt_signing_key=os.environ.get("JWT_SIGNING_KEY"),
 )
 
-mcp = FastMCP("PCO Services MCP Server", auth=auth)
+mcp = FastMCP("PCO MCP Server", auth=auth)
 
 
 # =============================================================================
@@ -86,6 +86,8 @@ def _build_patch_body(resource_type: str, **kwargs) -> dict:
 # Register tools from each module
 import services  # noqa: E402, F401
 import registrations  # noqa: E402, F401
+import giving  # noqa: E402, F401
+import calendar_events  # noqa: E402, F401
 
 
 if __name__ == "__main__":
