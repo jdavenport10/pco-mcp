@@ -5,8 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY services.py .
+COPY server.py services.py registrations.py .
 
 EXPOSE 8000
 
-CMD ["python", "services.py"]
+CMD ["python", "server.py"]
