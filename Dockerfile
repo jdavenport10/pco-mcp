@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN useradd --create-home appuser
 USER appuser
 
-COPY app.py server.py services.py registrations.py giving.py calendar_events.py people.py .
+COPY app.py server.py services.py registrations.py giving.py calendar_events.py people.py groups.py .
 
 EXPOSE 8000
 

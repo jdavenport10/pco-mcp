@@ -53,7 +53,7 @@ auth = OAuthProxy(
     upstream_client_secret=os.environ["PCO_CLIENT_SECRET"],
     token_verifier=PCOTokenVerifier(),
     base_url=os.environ.get("BASE_URL", "http://localhost:8000"),
-    extra_authorize_params={"scope": "services people registrations giving calendar"},
+    extra_authorize_params={"scope": "services people registrations giving calendar groups"},
     jwt_signing_key=os.environ.get("JWT_SIGNING_KEY"),
 )
 
