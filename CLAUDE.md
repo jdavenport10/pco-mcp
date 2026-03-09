@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-PCO MCP Server — a FastMCP server that exposes Planning Center Online (PCO) API operations as MCP tools. Runs as an HTTP server with per-user OAuth authentication. 127 tools across 5 PCO products.
+PCO MCP Server — a FastMCP server that exposes Planning Center Online (PCO) API operations as MCP tools. Runs as an HTTP server with per-user OAuth authentication. 142 tools across 6 PCO products.
 
 ## Architecture
 
@@ -12,6 +12,7 @@ PCO MCP Server — a FastMCP server that exposes Planning Center Online (PCO) AP
 - `giving.py` — PCO Giving API tools (`/giving/v2`): funds, batches, donations, designations, payment sources, donors. (22 tools)
 - `calendar_events.py` — PCO Calendar API tools (`/calendar/v2`): events, event instances, resources, tags, feeds, conflicts. (19 tools)
 - `people.py` — PCO People API tools (`/people/v2`): people CRUD + search, emails, phone numbers, addresses, households, lists, notes, campuses, custom fields. (34 tools)
+- `groups.py` — PCO Groups API tools (`/groups/v2`): groups, group types, memberships, events, attendance. (15 tools)
 
 ## Key Patterns
 
@@ -22,7 +23,7 @@ PCO MCP Server — a FastMCP server that exposes Planning Center Online (PCO) AP
 - PATCH bodies: use `_build_patch_body("ResourceType", **kwargs)` which filters out None values.
 - DELETE returns `{"success": True, "message": "..."}`.
 - JSON:API 1.0 spec for all request/response payloads.
-- OAuth scopes: `services people registrations giving calendar`.
+- OAuth scopes: `services people registrations giving calendar groups`.
 
 ## Running
 
