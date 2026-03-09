@@ -1,5 +1,4 @@
 import asyncio
-from typing import Optional
 
 from fastmcp.dependencies import Depends
 from pypco import PCO
@@ -526,7 +525,7 @@ async def get_household_people(household_id: str, pco: PCO = Depends(get_pco)) -
 async def create_household(
     name: str,
     primary_contact_id: str,
-    people_ids: list,
+    people_ids: list[str],
     pco: PCO = Depends(get_pco),
 ) -> dict:
     """
